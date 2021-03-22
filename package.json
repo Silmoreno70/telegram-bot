@@ -1,0 +1,26 @@
+{
+  "name": "telegram_bot_service",
+  "version": "1.0.0",
+  "description": "Simple telegram bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Silmoreno70/telegram-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Silmoreno70/telegram-bot/issues"
+  },
+  "homepage": "https://github.com/Silmoreno70/telegram-bot#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "form-data": "^4.0.0"
+  }
+}
