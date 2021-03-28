@@ -1,7 +1,6 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const FormData = require('form-data');
 const port = process.env.PORT || 3000;
 const bot_url = 'https://api.telegram.org/bot1612092899:AAEs6FYohEX0BB1pUGt_At727prgpFXpmOY/'
 
@@ -50,16 +49,17 @@ app.post('/', (req, res) => {
     res.send(req.body)
     console.log(req.body)
     let message = req.body;
-    let data = new FormData();
-    data.append('text', parseText(message.message.text));
-    data.append('chat_id', message.message.chat.id);
+    let data = {
+        text: parseText(message.message.text),
+        'chat_id': message.message.chat.id,
+    };
 
     axios.post(bot_url + 'sendMessage', data)
         .then(res => {
-            console.log(res);
+            console.log(res.data);
         })
         .catch(err => {
-            console.error(err);
+            console.error(err.data);
         })
 })
 app.listen(port, () => {
