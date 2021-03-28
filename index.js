@@ -1,6 +1,7 @@
 const express = require('express')
 const axios = require('axios')
 const app = express()
+const body_parser = require('body-parser');
 const port = process.env.PORT || 3000
 function parseText(text) {
     let appendM = ['a', 'e', 'i', 'o', 'u']
@@ -35,6 +36,7 @@ function parseText(text) {
 
     return res
 }
+app.use(body_parser.json())
 
 app.get('/', (req, res) => {
     res.send('corriendo..')
@@ -84,5 +86,5 @@ app.listen(port, () => {
     //     .catch(err => {
     //         console.error(err);
     //     })
-    console.log('server is running...');
+    console.log(`server is running in port [${port}]...`);
 })
