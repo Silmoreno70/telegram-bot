@@ -40,8 +40,8 @@ app.get('/', (req, res) => {
     res.send('corriendo..')
 })
 app.post('/', (req, res) => {
-    res.send(req)
-    console.log(req)
+    res.send(req.body)
+    console.log(req.body)
 })
 app.listen(port, () => {
     // console.log(`Example app listening at http://localhost:${port}`)
