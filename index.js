@@ -1,8 +1,9 @@
-const express = require('express')
-const axios = require('axios')
-const app = express()
-const body_parser = require('body-parser');
-const port = process.env.PORT || 3000
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = process.env.PORT || 3000;
+const bot_url = 'https://api.telegram.org/bot1612092899:AAEs6FYohEX0BB1pUGt_At727prgpFXpmOY/'
+
 function parseText(text) {
     let appendM = ['a', 'e', 'i', 'o', 'u']
     let exclude = [[/my/g, 'y'], [/ml/g, 'l'], [/ma/g, 'a'], [/mu/g, 'u']]
@@ -36,55 +37,30 @@ function parseText(text) {
 
     return res
 }
-app.use(body_parser.json())
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
 
 app.get('/', (req, res) => {
-    res.send('corriendo..')
+    res.send('corriendo..');
 })
 app.post('/', (req, res) => {
     res.send(req.body)
     console.log(req.body)
+    let message = req.body;
+    let data = new FormData();
+    data.append('text', parseText(message.message.text));
+    data.append('chat_id', message.chat.id);
+
+    axios.post(bot_url + 'sendMessage', data)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.error(err);
+        })
 })
 app.listen(port, () => {
-    // console.log(`Example app listening at http://localhost:${port}`)
-    // console.log('montado');
-    // let bot_uri = "https://api.telegram.org/bot1612092899:AAEs6FYohEX0BB1pUGt_At727prgpFXpmOY/"
-    // let last_id = ""
-    // axios.get(bot_uri + 'getUpdates', '')
-    //     .then(res => {
-    //         first_message = res.data.result.pop();
-    //         last_id = first_message.update_id;
-    //         setInterval(() => {
-    //             axios.get(bot_uri + 'getUpdates', '')
-    //                 .then(res => {
-    //                     if (res.data.result.length > 0) {
-    //                         let current_message = res.data.result.pop()
-    //                         if (current_message.update_id > last_id) {
-    //                             let { chat, text } = current_message.message;
-    //                             console.log(current_message.update_id);
-    //                             let data = {
-    //                                 chat_id: chat.id,
-    //                                 text: parseText(text)
-    //                             }
-    //                             axios.post(bot_uri + "sendMessage", data)
-    //                                 .then(res => {
-    //                                     console.log(res.data)
-    //                                 })
-    //                                 .catch(err => {
-    //                                     console.error(err);
-    //                                 })
-    //                             last_id = current_message.update_id
-    //                             console.log(last_id);
-    //                         }
-    //                     }
-    //                 })
-    //                 .catch(err => {
-    //                     console.error(err);
-    //                 })
-    //         }, 3000);
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //     })
     console.log(`server is running in port [${port}]...`);
 })
