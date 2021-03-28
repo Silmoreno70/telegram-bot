@@ -52,7 +52,7 @@ app.post('/', (req, res) => {
     let message = req.body;
     let data = new FormData();
     data.append('text', parseText(message.message.text));
-    data.append('chat_id', message.chat.id);
+    data.append('chat_id', message.message.chat.id);
 
     axios.post(bot_url + 'sendMessage', data)
         .then(res => {
