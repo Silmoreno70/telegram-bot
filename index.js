@@ -39,46 +39,49 @@ function parseText(text) {
 app.get('/', (req, res) => {
     res.send('corriendo..')
 })
-
+app.post('/', (req, res) => {
+    console.log(req);
+})
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-    console.log('montado');
-    let bot_uri = "https://api.telegram.org/bot1612092899:AAEs6FYohEX0BB1pUGt_At727prgpFXpmOY/"
-    let last_id = ""
-    axios.get(bot_uri + 'getUpdates', '')
-        .then(res => {
-            first_message = res.data.result.pop();
-            last_id = first_message.update_id;
-            setInterval(() => {
-                axios.get(bot_uri + 'getUpdates', '')
-                    .then(res => {
-                        if (res.data.result.length > 0) {
-                            let current_message = res.data.result.pop()
-                            if (current_message.update_id > last_id) {
-                                let { chat, text } = current_message.message;
-                                console.log(current_message.update_id);
-                                let data = {
-                                    chat_id: chat.id,
-                                    text: parseText(text)
-                                }
-                                axios.post(bot_uri + "sendMessage", data)
-                                    .then(res => {
-                                        console.log(res.data)
-                                    })
-                                    .catch(err => {
-                                        console.error(err);
-                                    })
-                                last_id = current_message.update_id
-                                console.log(last_id);
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    })
-            }, 3000);
-        })
-        .catch(err => {
-            console.error(err);
-        })
+    // console.log(`Example app listening at http://localhost:${port}`)
+    // console.log('montado');
+    // let bot_uri = "https://api.telegram.org/bot1612092899:AAEs6FYohEX0BB1pUGt_At727prgpFXpmOY/"
+    // let last_id = ""
+    // axios.get(bot_uri + 'getUpdates', '')
+    //     .then(res => {
+    //         first_message = res.data.result.pop();
+    //         last_id = first_message.update_id;
+    //         setInterval(() => {
+    //             axios.get(bot_uri + 'getUpdates', '')
+    //                 .then(res => {
+    //                     if (res.data.result.length > 0) {
+    //                         let current_message = res.data.result.pop()
+    //                         if (current_message.update_id > last_id) {
+    //                             let { chat, text } = current_message.message;
+    //                             console.log(current_message.update_id);
+    //                             let data = {
+    //                                 chat_id: chat.id,
+    //                                 text: parseText(text)
+    //                             }
+    //                             axios.post(bot_uri + "sendMessage", data)
+    //                                 .then(res => {
+    //                                     console.log(res.data)
+    //                                 })
+    //                                 .catch(err => {
+    //                                     console.error(err);
+    //                                 })
+    //                             last_id = current_message.update_id
+    //                             console.log(last_id);
+    //                         }
+    //                     }
+    //                 })
+    //                 .catch(err => {
+    //                     console.error(err);
+    //                 })
+    //         }, 3000);
+    //     })
+    //     .catch(err => {
+    //         console.error(err);
+    //     })
+    console.log('server is running...');
 })
